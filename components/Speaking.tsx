@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, ArrowRight } from 'lucide-react';
+import { assetPath } from '../constants';
 
 const Speaking: React.FC = () => {
   const testimonials = [
@@ -44,7 +44,7 @@ const Speaking: React.FC = () => {
             className="lg:col-span-4 relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800 group min-h-[400px] lg:min-h-0 order-2 lg:order-1"
         >
             <img 
-            src="/images/portraits/KimmySteamboat-7.jpg" 
+            src={assetPath("/images/portraits/KimmySteamboat-7.jpg")} 
             alt="Kim Hess Portrait" 
             className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
@@ -96,7 +96,7 @@ const Speaking: React.FC = () => {
                 className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800 group min-h-[250px]"
             >
                 <img 
-                src="/images/portraits/Evre-Event-small.jpg" 
+                src={assetPath("/images/portraits/Evre-Event-small.jpg")} 
                 alt="Kim Hess Speaking Event" 
                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
