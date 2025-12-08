@@ -51,7 +51,7 @@ const InstagramFeed: React.FC = () => {
         {/* LightWidget Instagram Feed */}
         <div className="rounded-lg overflow-hidden">
           <iframe
-            src="//lightwidget.com/widgets/7f1ba3adfb5e5d3094228fa0637daf20.html"
+            src="https://lightwidget.com/widgets/7f1ba3adfb5e5d3094228fa0637daf20.html"
             scrolling="no"
             allowTransparency={true}
             className="lightwidget-widget"
