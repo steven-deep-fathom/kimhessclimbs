@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      // Use root path for custom domain (kimhessclimbs.com)
-      base: '/',
+      // Use /kimhessclimbs/ until custom domain DNS is configured
+      // Change to '/' once kimhessclimbs.com DNS points to GitHub Pages
+      base: '/kimhessclimbs/',
       server: {
         port: 3000,
         host: '0.0.0.0',
