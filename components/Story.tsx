@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { assetPath } from '../constants';
 
 const Story: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -32,8 +31,8 @@ const Story: React.FC = () => {
             className="relative"
           >
             <div className="rounded-xl overflow-hidden shadow-2xl border border-gray-800">
-              <img
-                src={assetPath("/images/portraits/Photo-May-21-4-23-03-AM-1-2.jpg")} 
+              <img 
+                src="/images/portraits/Photo-May-21-4-23-03-AM-1-2.jpg" 
                 alt="Kim on Everest Summit" 
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
               />

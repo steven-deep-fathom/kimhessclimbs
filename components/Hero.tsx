@@ -2,15 +2,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import { assetPath } from '../constants';
 
 const Hero: React.FC = () => {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={assetPath("/images/backgrounds/Kim_Hess_Climbs_Splash04.jpg")} 
+        <img 
+          src="/images/backgrounds/Kim_Hess_Climbs_Splash04.jpg" 
           alt="Kim Hess Climbing" 
           className="w-full h-full object-cover object-center"
         />
