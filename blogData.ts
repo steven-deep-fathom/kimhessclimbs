@@ -8,7 +8,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Antarctica: The Vast Unknown",
     date: "Mar 27, 2018",
     excerpt: "Wedged comfortably in a metal jump seat at the back of the plane, my eyes focused on the exposed wires sprawling across the ceiling like an intricate web...",
-    image: assetPath("/images/blog/Screen-Shot-2018-01-04-at-2.38.18-PM-2-1500x1250.jpg",
+    image: assetPath("/images/blog/Screen-Shot-2018-01-04-at-2.38.18-PM-2-1500x1250.jpg"),
     tags: ["antarctica", "climb", "ice", "mountaineering", "seven-summits", "vinson-massif"],
     content: `Wedged comfortably in a metal jump seat at the back of the plane, my eyes focused on the exposed wires sprawling across the ceiling like an intricate web. The roaring sounds of the engine were constant and oddly soothing, interrupted by the occasional, uneasy crackling and popping of fuel cans with the ever-changing pressure. I was riding in the cold fuselage of the Iluyshin IL-76, an old Russian cargo plane fit for one mission only; transporting people to Antarctica's interior.
 
@@ -33,7 +33,7 @@ Antarctica stole a piece of my heart, but I take solace in the fact that we will
     title: "What Defines You?",
     date: "Sep 15, 2017",
     excerpt: "I imagine that I am not alone in admitting that lately I have felt a bit 'stuck'. Pursuing an unconventional lifestyle...",
-    image: assetPath("/images/blog/IMG_5848-small-1500x1000.jpg",
+    image: assetPath("/images/blog/IMG_5848-small-1500x1000.jpg"),
     tags: ["anxiety", "colorado", "define", "dream", "seven-summits"],
     content: `I imagine that I am not alone in admitting that lately I have felt a bit "stuck". Pursuing an unconventional lifestyle that includes raising tens of thousands of dollars to take a stab at completing one of the greatest adventure achievements has come with monumental peaks and forbidden pits.
 
@@ -58,7 +58,7 @@ What defines you?`
     title: "National Running Day",
     date: "Jun 07, 2017",
     excerpt: "Today I didn't want to get out bed. Like two positive magnets being forced together, my body clung to the safety of my sheets...",
-    image: assetPath("/images/blog/NationalRunning-small-1500x1250.jpg",
+    image: assetPath("/images/blog/NationalRunning-small-1500x1250.jpg"),
     tags: ["athlete", "battle", "fight", "pain", "run", "struggle"],
     content: `Today I didn't want to get out bed. Like two positive magnets being forced together, my body clung to the safety of my sheets but my mind impatiently pulled in the opposite direction knowing it was time. It was time to get up and against all odds, I got up, made my bed, and found myself splayed out on the couch under a blanket with my eyes closed.
 
@@ -83,7 +83,7 @@ Today is National Running Day – maybe that's why I felt the undeniable pull of
     title: "Finding My Happy",
     date: "Sep 20, 2016",
     excerpt: "It didn't take much effort to peel my eyelids open minutes before my alarm went off...",
-    image: assetPath("/images/blog/untitled-5304-small-1500x1000.jpg",
+    image: assetPath("/images/blog/untitled-5304-small-1500x1000.jpg"),
     tags: ["climb", "everest", "gratitude", "happy", "mountaineering", "nepal", "seven-summits", "summit"],
     content: `It didn't take much effort to peel my eyelids open minutes before my alarm went off. My conscious mind was confident that I had never actually allowed myself to drift off into a slumber…the strong cadence of my beating heart made that impossible. I was happy and warm, snuggled up in my downsuit under Paul's outstretched sleeping bag and although I was giddy for my day to begin, I was tense.
 
@@ -106,7 +106,7 @@ I hugged Mingma tightly and we danced like crazy on the summit that we had all t
     title: "Rush Hour in the Death Zone",
     date: "Aug 09, 2016",
     excerpt: "I woke eagerly before my alarm sounded. Today would be a day filled of places I have only dreamed of...",
-    image: assetPath("/images/blog/DSC06193-2-small-1500x1250.jpg",
+    image: assetPath("/images/blog/DSC06193-2-small-1500x1250.jpg"),
     tags: ["death-zone", "everest", "mountaineering", "rush-hour", "seven-summits"],
     content: `I woke eagerly before my alarm sounded. Today would be a day filled of places I have only dreamed of. It would be a day occupied by hard work, nervousness, and the unknown. I was excited to see the route, but admittedly, there is nothing worse than simply getting started in the morning. Dragging yourself out of your cozy sleeping bag in the premature morning and into the immobilizing chill of the air is the worst. Reluctantly and eagerly I began to move. I will not be late. It's time to pay the South Col a visit.
 
@@ -127,7 +127,7 @@ Closing my eyes I laid there waiting for my alarm to ring, signifying the beginn
     title: "Life and Death: Finding Gratitude",
     date: "Jul 25, 2016",
     excerpt: "It was a calm morning. The air was crisp, but not too cold. The wind was sleepy...",
-    image: assetPath("/images/blog/untitled-1-of-1-7-small-1500x1000.jpg",
+    image: assetPath("/images/blog/untitled-1-of-1-7-small-1500x1000.jpg"),
     tags: ["camp", "death", "everest", "gratitude", "life", "mountaineering", "seven-summits"],
     content: `It was a calm morning. The air was crisp, but not too cold. The wind was sleepy. The stars were dampened by the bright light of the almost full moon as camp buzzed with noises of excitement. I laced my boots up nice and tight and made sure my harness was secure. Eating pieces of bacon and gulping down some coffee, it was hard to eat. In a few short minutes I would be departing basecamp for the last time because it was finally time to climb to the top of the world.
 
@@ -150,7 +150,7 @@ Pulling on my boots I crawled out of my tent as the sun was casting a warm haze 
     title: "Red Light Green Light",
     date: "Jun 22, 2016",
     excerpt: "The days at basecamp had become monotonous. We had already played every game possible...",
-    image: assetPath("/images/blog/IMG_0443-small-1500x1000.jpg",
+    image: assetPath("/images/blog/IMG_0443-small-1500x1000.jpg"),
     tags: ["everest", "green", "light", "mountaineering", "red", "seven-summits", "summit"],
     content: `The days at basecamp had become monotonous. We had already played every game possible, exhausted our movie collection, and filled our days wandering around camp. We ate, slept, and Facebooked (when we could), but each day dragged on longer and longer. We were ready. We were all ready to go and the news about our summit window was bleak and consistently disappointing. Our hope was slowly fading but we knew we had to keep it together.
 
@@ -167,7 +167,7 @@ As I packed my bag for the final time, I took a deep breath. This was it. The gr
     title: "An Animal at the Zoo",
     date: "May 13, 2016",
     excerpt: "As a child, I remember going to the zoo on field trips and with the family to learn about all the different animals in the world...",
-    image: assetPath("/images/blog/ICBQ3657-small-1500x1250.jpg",
+    image: assetPath("/images/blog/ICBQ3657-small-1500x1250.jpg"),
     tags: ["animal", "cabin-fever", "everest", "seven-summits", "zoo"],
     content: `As a child, I remember going to the zoo on field trips and with the family to learn about all the different animals in the world. As a child, a trip to the zoo is exciting, educational, scary, and mesmerizing at times. As a child, it never occurs to you that perhaps the animals don't enjoy sitting in a cage with hundreds of weird looking animals staring back at them through bars and glass.
 
@@ -188,7 +188,7 @@ To each and every Trekker who has reached their high-point, congratulations! To 
     title: "Suffering Above the Clouds",
     date: "May 07, 2016",
     excerpt: "My alarm sounded at 5am. I don't know why I bother with an alarm anymore...",
-    image: assetPath("/images/blog/XDLR5708-small-1500x1250.jpg",
+    image: assetPath("/images/blog/XDLR5708-small-1500x1250.jpg"),
     tags: ["climb", "everest", "lhotse", "mountaineering", "seven-summits", "suffering"],
     content: `My alarm sounded at 5am. I don't know why I bother with an alarm anymore because I never seem to fall asleep when we are about to climb. Today we would be leaving Camp 2 for Camp 3 to continue our acclimatization.
 
@@ -209,7 +209,7 @@ In that moment, lying there exhausted and broken, I found peace. Sometimes we ha
     title: "Frozen In Time",
     date: "Apr 28, 2016",
     excerpt: "360 days ago I was at the very spot I am standing now. 360 days later I have returned...",
-    image: assetPath("/images/blog/IMGP4172-small-1500x1250.jpg",
+    image: assetPath("/images/blog/IMGP4172-small-1500x1250.jpg"),
     tags: ["everest", "frozen", "history", "life", "mountaineering", "seven-summits"],
     content: `360 days ago I was at the very spot I am standing now. 360 days later I have returned to pick up where the earth shook me to a halt. Today was a beautiful day and my lungs felt solid. Snapping photos as we headed up the Western Cwm I noticed a jacket sprawled out to my left. Frozen in the position as though it was worn by someone relaxing in a recliner, the jacket was covered in ice.
 
@@ -228,7 +228,7 @@ Looking around at the frozen relics of expeditions past, I was reminded that thi
     title: "An Uninvited Guest",
     date: "Apr 08, 2016",
     excerpt: "Have you ever noticed how the things that terrify us can also be the most thrilling experiences...",
-    image: assetPath("/images/blog/IMGP3776-small-1500x1250.jpg",
+    image: assetPath("/images/blog/IMGP3776-small-1500x1250.jpg"),
     tags: ["everest", "fear", "guest", "humor", "mouse", "seven-summits", "sleeping", "uninvited"],
     content: `Have you ever noticed how the things that terrify us can also be the most thrilling experiences all tied into one? Climbing Mt. Everest is much like that, it intimidates and scares me every minute I think about it, yet I can't seem to get enough. It only seems natural that as I make my way to the Holy Grail herself, Everest, another fear of mine would literally walk into my sleeping bag.
 
@@ -249,7 +249,7 @@ One might think waking up to a mouse in their sleeping bag isn't that big of a d
     title: "A Letter to Myself",
     date: "Mar 27, 2016",
     excerpt: "Dear Kim, Today you begin a new chapter in your life. The chapter you have been waiting for...",
-    image: assetPath("/images/blog/IMGP3403-small-1500x1250.jpg",
+    image: assetPath("/images/blog/IMGP3403-small-1500x1250.jpg"),
     tags: ["everest", "letter", "mountaineering", "self-reflection"],
     content: `Dear Kim,
 
@@ -279,7 +279,7 @@ Kim`
     title: "Running Through Lightning",
     date: "Oct 22, 2015",
     excerpt: "The journey home from Everest was nothing like I had imagined it would be...",
-    image: assetPath("/images/blog/DSC00211-small-1500x1000.jpg",
+    image: assetPath("/images/blog/DSC00211-small-1500x1000.jpg"),
     tags: ["avalanche", "climb", "earthquake", "everest", "kathmandu", "lightning", "mountaineering", "run", "seven-summits", "storm", "survive", "thailand"],
     content: `The journey home from Everest was nothing like I had imagined it would be. There were no celebrations, no champagne toasts, no triumphant return. Instead, there was devastation, heartbreak, and a country in ruins.
 
@@ -298,7 +298,7 @@ The earthquake took my dream from me that year. But it gave me something more va
     title: "Follow the Yellow Dirt Road",
     date: "Sep 14, 2015",
     excerpt: "Difficult doesn't even begin to describe the trek out from Everest basecamp...",
-    image: assetPath("/images/blog/DSC01355-small-1500x1250.jpg",
+    image: assetPath("/images/blog/DSC01355-small-1500x1250.jpg"),
     tags: ["earthquake", "everest", "follow", "inversion", "nepal", "road", "seven-summits", "yoga"],
     content: `Difficult doesn't even begin to describe the trek out from Everest basecamp, not because it was physically demanding, but because my spirit was broken. My mind screamed, GET ME OUT OF HERE! Every cell in my body wanted to escape the devastation all around me, but another part of me, my essence, wanted to stay.
 
@@ -315,7 +315,7 @@ Following the yellow dirt road home, I realized that this journey wasn't over. I
     title: "I Didn't Need to be Rescued",
     date: "Aug 18, 2015",
     excerpt: "Walking out from basecamp after the earthquake was one of the hardest things I've ever done...",
-    image: assetPath("/images/blog/DSC00758-small-1500x1250.jpg",
+    image: assetPath("/images/blog/DSC00758-small-1500x1250.jpg"),
     tags: ["dream", "earthquake", "everest", "namaste", "seven-summits"],
     content: `Walking out from basecamp after the earthquake was one of the hardest things I've ever done. Not because of the physical challenge, but because of the emotional weight I carried with every step.
 
@@ -338,7 +338,7 @@ I walked out of that valley a different person. I didn't need to be rescued, but
     title: "It's Over",
     date: "Jul 28, 2015",
     excerpt: "Today was my last day at Everest basecamp. The expedition was officially over...",
-    image: assetPath("/images/blog/IMGP3386-small-1500x1250.jpg",
+    image: assetPath("/images/blog/IMGP3386-small-1500x1250.jpg"),
     tags: ["earthquake", "everest", "namaste", "seven-summits"],
     content: `Today was my last day at Everest basecamp. The expedition was officially over. Not because we had summited, but because Mother Nature had other plans.
 
@@ -359,7 +359,7 @@ I'll be back. That much I know for certain. The mountain will be waiting. And so
     title: "It Was Never About the Summit",
     date: "Jun 16, 2015",
     excerpt: "I have been overwhelmed with the feeling of being cheated out of a dream...",
-    image: assetPath("/images/blog/Everest-2015-03238-small-1500x1000.jpg",
+    image: assetPath("/images/blog/Everest-2015-03238-small-1500x1000.jpg"),
     tags: ["avalanche", "earthquake", "everest", "seven-summits"],
     content: `I have been overwhelmed with the feeling of being cheated out of a dream. I was cheated of the dream I worked so hard to achieve and the dream I chased down when everyone said I couldn't do it. I was climbing Mt. Everest. I could taste the summit but then the world started shaking and in the course of a few minutes my dream slipped through my hands.
 
@@ -380,7 +380,7 @@ Perhaps this trip had more in store for me than I originally prepared for, but w
     title: "Daring to Dream Again...",
     date: "Sep 10, 2014",
     excerpt: "There are certain events in our lives that change us. Events that you can never erase from your memory...",
-    image: assetPath("/images/blog/DSC00338-small-1500x1000.jpg",
+    image: assetPath("/images/blog/DSC00338-small-1500x1000.jpg"),
     tags: ["denali", "everest", "seven-summits"],
     content: `There are certain events in our lives that change us. Events that you can never erase from your memory. Events that make you a different person. I'll never forget the first time I rode a bike without training wheels, or when I lost my grandparents, or when I walked across the stage to receive my undergraduate degree.
 
