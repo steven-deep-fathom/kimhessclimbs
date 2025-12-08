@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BLOG_POSTS } from '../constants';
 import { BlogPost } from '../types';
+import { assetPath } from '../utils/assetPath';
 
 const Blog: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -79,7 +80,7 @@ const Blog: React.FC = () => {
               >
                 <div className="relative h-56 overflow-hidden">
                   <img
-                    src={post.image}
+                    src={assetPath(post.image)}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -138,7 +139,7 @@ const Blog: React.FC = () => {
               {/* Hero Image */}
               <div className="relative h-64 md:h-80">
                 <img
-                  src={selectedPost.image}
+                  src={assetPath(selectedPost.image)}
                   alt={selectedPost.title}
                   className="w-full h-full object-cover"
                 />

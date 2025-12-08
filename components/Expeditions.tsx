@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EXPEDITIONS } from '../constants';
 import { Expedition } from '../types';
+import { assetPath } from '../utils/assetPath';
 
 const Expeditions: React.FC = () => {
   const [selectedExpedition, setSelectedExpedition] = useState<Expedition | null>(null);
@@ -68,7 +69,7 @@ const Expeditions: React.FC = () => {
               onClick={() => openLightbox(expedition)}
             >
               <img
-                src={expedition.image}
+                src={assetPath(expedition.image)}
                 alt={expedition.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
               />
@@ -145,7 +146,7 @@ const Expeditions: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.2 }}
-                  src={images[currentImageIndex]}
+                  src={assetPath(images[currentImageIndex])}
                   alt={`${selectedExpedition.name} - Photo ${currentImageIndex + 1}`}
                   className="w-full h-auto max-h-[60vh] object-contain rounded-lg"
                 />
@@ -185,7 +186,7 @@ const Expeditions: React.FC = () => {
                         }`}
                       >
                         <img
-                          src={img}
+                          src={assetPath(img)}
                           alt={`Thumbnail ${idx + 1}`}
                           className="w-full h-full object-cover"
                         />
