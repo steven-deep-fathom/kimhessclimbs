@@ -4,7 +4,8 @@ import Hero from './components/Hero';
 import Story from './components/Story';
 import GrandSlam from './components/GrandSlam';
 import Speaking from './components/Speaking';
-import InstagramFeed from './components/InstagramFeed';
+// Instagram feed temporarily disabled - requires paid LightWidget plan for HTTPS
+// import InstagramFeed from './components/InstagramFeed';
 import Blog from './components/Blog';
 import Expeditions from './components/Expeditions';
 import Partners from './components/Partners';
@@ -37,7 +38,7 @@ function HomePage() {
       <Story />
       <GrandSlam />
       <Speaking />
-      <InstagramFeed />
+      {/* InstagramFeed temporarily removed - see components/InstagramFeed.tsx */}
       <Blog />
       <Expeditions />
       <Partners />
