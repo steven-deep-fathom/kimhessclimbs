@@ -44,9 +44,9 @@ const AnimatedStat: React.FC<AnimatedStatProps> = ({ value, duration, delay, lab
   const displayValue = formatNumber ? count.toLocaleString() : count;
 
   return (
-    <div className={`bg-brand-slate p-5 rounded-xl border border-gray-700 text-center transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-      <p className="text-3xl md:text-4xl font-bold text-brand-teal font-heading">{displayValue}</p>
-      <p className="text-xs uppercase tracking-wider text-gray-400 mt-2">{label}</p>
+    <div className={`bg-brand-slate p-3 sm:p-5 rounded-xl border border-gray-700 text-center transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-50'} overflow-hidden`}>
+      <p className="text-lg sm:text-2xl md:text-4xl font-bold text-brand-teal font-heading truncate">{displayValue}</p>
+      <p className="text-[10px] sm:text-xs uppercase tracking-wider text-gray-400 mt-1 sm:mt-2 line-clamp-2">{label}</p>
     </div>
   );
 };
@@ -65,14 +65,9 @@ const STATS_CONFIG = [
   { value: 2, duration: 600, label: "Poles To Go" },
 ];
 
-// Calculate cumulative delays
+// All stats start animating at the same time (no cumulative delay)
 const getStatsWithDelays = () => {
-  let cumulativeDelay = 0;
-  return STATS_CONFIG.map((stat) => {
-    const statWithDelay = { ...stat, delay: cumulativeDelay };
-    cumulativeDelay += stat.duration;
-    return statWithDelay;
-  });
+  return STATS_CONFIG.map((stat) => ({ ...stat, delay: 0 }));
 };
 
 const StatsSection: React.FC = () => {

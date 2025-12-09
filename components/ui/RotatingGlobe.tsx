@@ -347,6 +347,74 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         document.addEventListener("mouseup", handleMouseUp);
       };
 
+      // Touch support for mobile
+      const handleTouchStart = (event: TouchEvent) => {
+        if (event.touches.length === 1) {
+          event.preventDefault();
+          autoRotateRef.current = false;
+          const touch = event.touches[0];
+          const startX = touch.clientX;
+          const startY = touch.clientY;
+          const startRotation: [number, number] = [...rotationRef.current];
+
+          const handleTouchMove = (moveEvent: TouchEvent) => {
+            if (moveEvent.touches.length === 1) {
+              moveEvent.preventDefault();
+              const moveTouch = moveEvent.touches[0];
+              const sensitivity = 0.5;
+              const dx = moveTouch.clientX - startX;
+              const dy = moveTouch.clientY - startY;
+
+              rotationRef.current[0] = startRotation[0] + dx * sensitivity;
+              rotationRef.current[1] = startRotation[1] - dy * sensitivity;
+              rotationRef.current[1] = Math.max(-90, Math.min(90, rotationRef.current[1]));
+
+              projection.rotate(rotationRef.current);
+              render();
+            }
+          };
+
+          const handleTouchEnd = () => {
+            canvas.removeEventListener("touchmove", handleTouchMove);
+            canvas.removeEventListener("touchend", handleTouchEnd);
+            setTimeout(() => {
+              autoRotateRef.current = true;
+            }, 2000);
+          };
+
+          canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+          canvas.addEventListener("touchend", handleTouchEnd);
+        }
+      };
+
+      // Pinch-to-zoom for mobile
+      let lastPinchDistance = 0;
+      const handlePinchStart = (event: TouchEvent) => {
+        if (event.touches.length === 2) {
+          event.preventDefault();
+          const dx = event.touches[0].clientX - event.touches[1].clientX;
+          const dy = event.touches[0].clientY - event.touches[1].clientY;
+          lastPinchDistance = Math.sqrt(dx * dx + dy * dy);
+        }
+      };
+
+      const handlePinchMove = (event: TouchEvent) => {
+        if (event.touches.length === 2) {
+          event.preventDefault();
+          const dx = event.touches[0].clientX - event.touches[1].clientX;
+          const dy = event.touches[0].clientY - event.touches[1].clientY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (lastPinchDistance > 0) {
+            const scaleFactor = distance / lastPinchDistance;
+            const newRadius = Math.max(radius * 0.5, Math.min(radius * 3, projection.scale() * scaleFactor));
+            projection.scale(newRadius);
+            render();
+          }
+          lastPinchDistance = distance;
+        }
+      };
+
       const handleWheel = (event: WheelEvent) => {
         event.preventDefault();
         const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1;
@@ -357,6 +425,9 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
 
       canvas.addEventListener("mousedown", handleMouseDown);
       canvas.addEventListener("wheel", handleWheel);
+      canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+      canvas.addEventListener("touchstart", handlePinchStart, { passive: false });
+      canvas.addEventListener("touchmove", handlePinchMove, { passive: false });
 
       loadWorldData();
 
@@ -364,6 +435,9 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         rotationTimer.stop();
         canvas.removeEventListener("mousedown", handleMouseDown);
         canvas.removeEventListener("wheel", handleWheel);
+        canvas.removeEventListener("touchstart", handleTouchStart);
+        canvas.removeEventListener("touchstart", handlePinchStart);
+        canvas.removeEventListener("touchmove", handlePinchMove);
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }

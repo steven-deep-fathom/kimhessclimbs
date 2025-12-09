@@ -82,7 +82,7 @@ const Speaking: React.FC = () => {
                 </a>
                 <div className="flex items-center gap-2 px-6 py-4 border border-gray-600 rounded-xl text-gray-300">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span>Accepting 2025 Inquiries</span>
+                    <span>Accepting 2026 Inquiries</span>
                 </div>
                 </div>
             </motion.div>
