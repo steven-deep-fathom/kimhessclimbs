@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
       // Custom domain kimhessclimbs.com - use root path
       base: '/',
       server: {
-        port: 3000,
+        port: 8849,
         host: '0.0.0.0',
       },
       plugins: [react()],

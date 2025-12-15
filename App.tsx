@@ -13,6 +13,9 @@ import Press from './components/Press';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import GlobePage from './pages/GlobePage';
+import PrivateIndex from './pages/private/PrivateIndex';
+import ExampleMockup from './pages/private/ExampleMockup';
+import MountainScenePage from './pages/private/MountainScene';
 
 // Simple hash-based router
 function useHashRoute() {
@@ -55,6 +58,17 @@ function App() {
   // Route to different pages based on hash
   if (route === '#globe' || route === '#/globe') {
     return <GlobePage />;
+  }
+
+  // Private sandbox routes (unlisted, accessible via direct URL)
+  if (route === '#private' || route === '#private/') {
+    return <PrivateIndex />;
+  }
+  if (route === '#private/example') {
+    return <ExampleMockup />;
+  }
+  if (route === '#private/mountain-scene') {
+    return <MountainScenePage />;
   }
 
   // Default to home page
