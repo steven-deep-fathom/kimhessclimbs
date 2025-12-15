@@ -34,13 +34,16 @@ export function GenerativeMountainScene() {
     // GEOMETRY
     const geometry = new THREE.PlaneGeometry(12, 8, 128, 128);
 
+    // Start light far below/behind the scene so mountains appear dark initially
+    const initialLightPos = new THREE.Vector3(0, -10, -10);
+
     // SHADER MATERIAL
     const material = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       wireframe: false,
       uniforms: {
         time: { value: 0 },
-        pointLightPosition: { value: new THREE.Vector3(0, 0, 5) },
+        pointLightPosition: { value: initialLightPos.clone() },
         color: { value: new THREE.Color("#7dd3fc") },
       },
       vertexShader: `
@@ -141,7 +144,7 @@ export function GenerativeMountainScene() {
     scene.add(mesh);
 
     const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-    pointLight.position.set(0, 0, 5);
+    pointLight.position.copy(initialLightPos);
     lightRef.current = pointLight;
     scene.add(pointLight);
 
