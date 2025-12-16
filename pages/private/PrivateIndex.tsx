@@ -4,7 +4,10 @@ import React from 'react';
 // This page itself is unlisted, only accessible via direct URL
 
 const mockups = [
-  // Add mockups here as you create them:
+  // Seven Summits terrain visualizations
+  { name: 'everest', description: 'Mount Everest - 8,849m - Icy blue terrain' },
+  { name: 'kilimanjaro', description: 'Mount Kilimanjaro - 5,895m - Warm orange terrain' },
+  // Other mockups
   { name: 'mountain-scene', description: 'Interactive Three.js terrain with procedural generation' },
   { name: 'example', description: 'Template mockup - copy this to create new ones' },
 ];

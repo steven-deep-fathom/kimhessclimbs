@@ -16,6 +16,8 @@ import GlobePage from './pages/GlobePage';
 import PrivateIndex from './pages/private/PrivateIndex';
 import ExampleMockup from './pages/private/ExampleMockup';
 import MountainScenePage from './pages/private/MountainScene';
+import EverestScenePage from './pages/private/EverestScene';
+import KilimanjaroScenePage from './pages/private/KilimanjaroScene';
 
 // Simple hash-based router
 function useHashRoute() {
@@ -69,6 +71,12 @@ function App() {
   }
   if (route === '#private/mountain-scene') {
     return <MountainScenePage />;
+  }
+  if (route === '#private/everest') {
+    return <EverestScenePage />;
+  }
+  if (route === '#private/kilimanjaro') {
+    return <KilimanjaroScenePage />;
   }
 
   // Default to home page
