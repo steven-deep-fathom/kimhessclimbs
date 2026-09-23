@@ -54,7 +54,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
 
         // Target rotation: negate longitude to center it, use latitude directly
         const targetRotation: [number, number] = [-lng, -lat];
-        const startRotation: [number, number] = [...rotationRef.current];
+        const startRotation: [number, number] = [rotationRef.current[0], rotationRef.current[1]];
         const startTime = Date.now();
         const duration = 1500; // 1.5 seconds
 
@@ -320,7 +320,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         autoRotateRef.current = false;
         const startX = event.clientX;
         const startY = event.clientY;
-        const startRotation: [number, number] = [...rotationRef.current];
+        const startRotation: [number, number] = [rotationRef.current[0], rotationRef.current[1]];
 
         const handleMouseMove = (moveEvent: MouseEvent) => {
           const sensitivity = 0.5;
@@ -355,7 +355,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
           const touch = event.touches[0];
           const startX = touch.clientX;
           const startY = touch.clientY;
-          const startRotation: [number, number] = [...rotationRef.current];
+          const startRotation: [number, number] = [rotationRef.current[0], rotationRef.current[1]];
 
           const handleTouchMove = (moveEvent: TouchEvent) => {
             if (moveEvent.touches.length === 1) {
