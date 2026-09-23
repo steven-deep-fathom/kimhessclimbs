@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
           eager
           highPriority
           alt="Kim Hess Climbing"
-          className="w-full h-full object-cover object-[82%_50%] lg:object-center"
+          className="w-full h-full object-cover object-[82%_50%] lg:object-center xl:landscape:object-[40%_50%] lg:portrait:object-[68%_50%]"
         />
         <div className="absolute inset-0 bg-black/40"></div>
         
@@ -24,7 +24,9 @@ const Hero: React.FC = () => {
       {/* Content. Below lg the photo is framed on Kim, whose head sits at 43-57%
           of the height, so the text splits above and below that band. Screens
           under 500 px tall (landscape phones) can't fit that, so they get the
-          centred desktop layout in a smaller size. */}
+          centred desktop layout in a smaller size. On desktop the subtitle is
+          narrower and the photo is positioned (centre at lg, 40% on wide
+          landscape screens, 68% on upright tablets) to keep her head beside it. */}
       <div className="relative z-20 text-center px-4 w-full max-w-5xl mx-auto h-full flex flex-col lg:h-auto lg:block lg:mt-16 [@media(max-height:500px)]:h-auto [@media(max-height:500px)]:block [@media(max-height:500px)]:mt-12">
 
         <motion.div
@@ -52,7 +54,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="max-lg:pt-3 [@media(max-height:500px)]:pt-0"
         >
-          <p className="text-gray-200 text-lg md:text-2xl font-light tracking-wide max-w-3xl mx-auto mb-6 lg:mb-12 leading-relaxed [@media(max-height:500px)]:text-lg [@media(max-height:500px)]:mb-4">
+          <p className="text-gray-200 text-lg md:text-2xl font-light tracking-wide max-w-3xl lg:max-w-xl mx-auto mb-6 lg:mb-12 leading-relaxed [@media(max-height:500px)]:text-lg [@media(max-height:500px)]:mb-4">
             Pursuing the Explorers Grand Slam. Defying Limits. Conquering The Impossible.
           </p>
           
