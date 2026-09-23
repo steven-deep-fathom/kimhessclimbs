@@ -4,6 +4,7 @@ import React from 'react';
 // This page itself is unlisted, only accessible via direct URL
 
 const mockups = [
+  { name: 'moodboard', description: 'Mood board · react to 13 real sites to set the site\u2019s new look' },
   // Globe concept mockups (docs/plans/2026-09-22_globe-concept-mockups.md)
   { name: 'globe-real', description: 'M1 · Photo-real Earth with fly-to (NASA Blue/Black Marble)' },
   { name: 'globe-story', description: 'M3 · Guided story, 2011 → 2018, ending on the Poles' },

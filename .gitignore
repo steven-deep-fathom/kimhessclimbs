@@ -28,3 +28,6 @@ _ref-hess/
 
 # Audit screenshots (large; summaries and audit.json are committed)
 docs/plans/evidence/**/*.png
+
+# Design research reference screenshots (third-party sites; local only)
+docs/research/2026-09-23_refs/

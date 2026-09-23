@@ -32,6 +32,8 @@ const privateRoutes: Record<string, React.LazyExoticComponent<React.ComponentTyp
   privateRoutes['#private/globe-page'] = lazy(() => import('./pages/private/globe/GlobePageM1'));
   privateRoutes['#private/summit-hero'] = lazy(() => import('./pages/private/globe/SummitHero'));
   privateRoutes['#private/ridgeline-hero'] = lazy(() => import('./pages/private/globe/RidgelineHero'));
+  // Design feedback mood board (docs/plans/2026-09-23_design-refresh.md)
+  privateRoutes['#private/moodboard'] = lazy(() => import('./pages/private/MoodBoard'));
 }
 
 const RELOAD_FLAG = 'khc-chunk-reload';
