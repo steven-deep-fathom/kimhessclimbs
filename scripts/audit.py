@@ -155,6 +155,19 @@ HERO_CLEAR_JS = """() => {
 # 500 px tall or less can't clear the head and are checked for fit only.
 HERO_EXTRA = [(640, 800), (900, 800), (1000, 700), (844, 390), (667, 375)]
 
+# Teal (#14b8a6) pixels within 24 CSS px of the globe centre: the selected-summit marker.
+R11_JS = """() => {
+  const c = document.querySelector('canvas');
+  const k = c.width / c.getBoundingClientRect().width, r = Math.round(24 * k);
+  const cx = Math.round(c.width / 2), cy = Math.round(c.height / 2);
+  const d = c.getContext('2d').getImageData(cx - r, cy - r, 2 * r, 2 * r).data;
+  let teal = 0;
+  for (let i = 0; i < d.length; i += 4) {
+    if (Math.abs(d[i] - 20) < 12 && Math.abs(d[i + 1] - 184) < 12 && Math.abs(d[i + 2] - 166) < 12) teal++;
+  }
+  return teal;
+}"""
+
 R5_JS = """() => {
   const grid = [...document.querySelectorAll('#expeditions *')].find(e => getComputedStyle(e).display === 'grid');
   const g = grid.getBoundingClientRect();
@@ -235,8 +248,8 @@ def run():
                 ok = (not nav.get("desktop")) and nav["burgerVisible"] and nav["burgerRight"] <= w - 16
             record("R1", w, ok, nav)
 
-            # R4 hero head box
-            if w in (390, 768):
+            # R4 hero head box (desktop widths added 2026-09-23)
+            if True:
                 page.wait_for_timeout(500)
                 hero = page.evaluate(R4_JS, list(HEAD_BOX))
                 record("R4", w, hero["inView"] and not hero["overlaps"], hero)
@@ -341,6 +354,33 @@ def run():
             record("R7", w, ok, {"canvas": canvas, "land_requests": land})
             page.screenshot(path=str(OUT / f"globe-{w}.png"), full_page=True)
             ctx.close()
+
+        # R11 selecting a summit highlights it at the globe centre
+        for w in (390, 1440):
+            ctx = new_context(browser, w)
+            page = open_page(ctx)
+            goto(page, "#globe")
+            before = page.evaluate(R11_JS)
+            page.locator("button:visible", has_text="Mt. Vinson").first.click()
+            page.wait_for_timeout(2000)
+            after = page.evaluate(R11_JS)
+            record("R11", w, after > 50 and after > before * 3, {"teal_before": before, "teal_after": after})
+            page.screenshot(path=str(OUT / f"globe-selected-{w}.png"))
+            ctx.close()
+
+        # R12 on a phone, a vertical swipe that starts on the globe scrolls the page
+        ctx = new_context(browser, 390)
+        page = open_page(ctx)
+        goto(page, "#globe")
+        box = page.locator("canvas").bounding_box()
+        cdp = ctx.new_cdp_session(page)
+        y0 = page.evaluate("scrollY")
+        cdp.send("Input.synthesizeScrollGesture", {"x": box["x"] + box["width"] / 2, "y": box["y"] + box["height"] / 2,
+                                                    "yDistance": -200, "gestureSourceType": "touch", "speed": 800})
+        page.wait_for_timeout(800)
+        y1 = page.evaluate("scrollY")
+        record("R12", 390, y1 - y0 >= 100, {"scroll_before": y0, "scroll_after": y1})
+        ctx.close()
 
         # R9 contact form (Formspree intercepted; no email is sent)
         for w in (390, 1440):

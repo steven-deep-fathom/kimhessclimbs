@@ -53,6 +53,9 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState(0);
+    // render() is created once per canvas size, so it reads the selection through a ref.
+    const activeSummitRef = useRef(activeSummit);
+    activeSummitRef.current = activeSummit;
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const projectionRef = useRef<d3.GeoProjection | null>(null);
@@ -272,7 +275,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
             const distance = d3.geoDistance(coords, projection.invert!([containerWidth / 2, containerHeight / 2]) as [number, number]);
 
             if (projected && distance < Math.PI / 2) {
-              const isActive = activeSummit === summit.id;
+              const isActive = activeSummitRef.current === summit.id;
               const markerSize = isActive ? 8 * scaleFactor : 5 * scaleFactor;
 
               // Outer glow for active
@@ -375,23 +378,33 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         document.addEventListener("mouseup", handleMouseUp);
       };
 
-      // Touch support for mobile
+      // Touch support for mobile. The canvas has touch-action: pan-y, so the
+      // browser scrolls the page on a vertical swipe; a swipe that starts
+      // sideways rotates the globe instead.
       const handleTouchStart = (event: TouchEvent) => {
         if (event.touches.length === 1) {
-          event.preventDefault();
-          autoRotateRef.current = false;
           const touch = event.touches[0];
           const startX = touch.clientX;
           const startY = touch.clientY;
           const startRotation: [number, number] = [rotationRef.current[0], rotationRef.current[1]];
+          let rotating = false;
 
           const handleTouchMove = (moveEvent: TouchEvent) => {
             if (moveEvent.touches.length === 1) {
-              moveEvent.preventDefault();
               const moveTouch = moveEvent.touches[0];
               const sensitivity = 0.5;
               const dx = moveTouch.clientX - startX;
               const dy = moveTouch.clientY - startY;
+              if (!rotating) {
+                if (Math.hypot(dx, dy) < 8) return;
+                if (Math.abs(dy) > Math.abs(dx)) {
+                  handleTouchEnd();
+                  return;
+                }
+                rotating = true;
+                autoRotateRef.current = false;
+              }
+              if (moveEvent.cancelable) moveEvent.preventDefault();
 
               rotationRef.current[0] = startRotation[0] + dx * sensitivity;
               rotationRef.current[1] = startRotation[1] - dy * sensitivity;
@@ -402,16 +415,20 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
             }
           };
 
-          const handleTouchEnd = () => {
+          function handleTouchEnd() {
             canvas.removeEventListener("touchmove", handleTouchMove);
             canvas.removeEventListener("touchend", handleTouchEnd);
-            setTimeout(() => {
-              autoRotateRef.current = true;
-            }, 2000);
-          };
+            canvas.removeEventListener("touchcancel", handleTouchEnd);
+            if (rotating) {
+              setTimeout(() => {
+                autoRotateRef.current = true;
+              }, 2000);
+            }
+          }
 
           canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
           canvas.addEventListener("touchend", handleTouchEnd);
+          canvas.addEventListener("touchcancel", handleTouchEnd);
         }
       };
 
@@ -500,7 +517,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         )}
         <canvas
           ref={canvasRef}
-          className="block mx-auto rounded-2xl bg-brand-dark"
+          className="block mx-auto rounded-2xl bg-brand-dark touch-pan-y"
         />
       </div>
     );
