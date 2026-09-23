@@ -206,3 +206,9 @@ Visual redesign, the globe concepts (`2026-09-22_globe-concept-mockups.md`), sel
     - iOS Safari isn't tested. If a sideways swipe drifts vertically in its first 8 px, the page may scroll and the globe rotate at once. Confirm on a real iPhone.
     - Auto-rotate resume timers can overlap (unchanged code).
     - A tap still pauses rotation for 2 s.
+
+**Follow-up release (2026-09-23):** Steven approved. Merge `769b75b` was pushed and the deploy succeeded. The live site serves `index-C_kNseSI.js`, the same file as the local build.
+- The live audit (`evidence/2026-09-23_live-fixes/`) passes R1–R12 at every width and every extra R4 size.
+- Weight: 0.76 MB before scrolling; 1.35–1.72 MB after a full scroll.
+- **Rollback:** `git revert -m 1 769b75b`, then push.
+- **Still to do:** try the globe swipe on a real iPhone.

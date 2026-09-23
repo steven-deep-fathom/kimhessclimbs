@@ -1,0 +1,731 @@
+{
+  "base": "https://kimhessclimbs.com",
+  "checks": {
+    "R1": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "edge": 374,
+          "vw": 390,
+          "burgerVisible": true,
+          "burgerRight": 374,
+          "desktop": false
+        }
+      },
+      "768": {
+        "pass": true,
+        "detail": {
+          "edge": 744,
+          "vw": 768,
+          "burgerVisible": true,
+          "burgerRight": 744,
+          "desktop": false
+        }
+      },
+      "1024": {
+        "pass": true,
+        "detail": {
+          "edge": 992,
+          "vw": 1024,
+          "burgerVisible": true,
+          "burgerRight": 992,
+          "desktop": false
+        }
+      },
+      "1280": {
+        "pass": true,
+        "detail": {
+          "edge": 1248,
+          "vw": 1280,
+          "burgerVisible": false,
+          "burgerRight": null,
+          "desktop": true,
+          "rowScroll": 1216,
+          "rowClient": 1216,
+          "lastRight": 1248,
+          "heights": [
+            36
+          ],
+          "gap": 68
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "edge": 1328,
+          "vw": 1440,
+          "burgerVisible": false,
+          "burgerRight": null,
+          "desktop": true,
+          "rowScroll": 1216,
+          "rowClient": 1216,
+          "lastRight": 1328,
+          "heights": [
+            36
+          ],
+          "gap": 68
+        }
+      },
+      "1920": {
+        "pass": true,
+        "detail": {
+          "edge": 1568,
+          "vw": 1920,
+          "burgerVisible": false,
+          "burgerRight": null,
+          "desktop": true,
+          "rowScroll": 1216,
+          "rowClient": 1216,
+          "lastRight": 1568,
+          "heights": [
+            36
+          ],
+          "gap": 68
+        }
+      }
+    },
+    "R4": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 196,
+            "t": 366,
+            "r": 299,
+            "b": 478
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "768": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 480,
+            "t": 444,
+            "r": 605,
+            "b": 580
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "1024": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "50% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 892,
+            "t": 390,
+            "r": 1002,
+            "b": 510
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "1280": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "40% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 1052,
+            "t": 390,
+            "r": 1162,
+            "b": 510
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "40% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 1116,
+            "t": 390,
+            "r": 1226,
+            "b": 510
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "1920": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "40% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 1416,
+            "t": 378,
+            "r": 1548,
+            "b": 522
+          },
+          "inView": true,
+          "overlaps": []
+        }
+      },
+      "640x800": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 407,
+            "t": 347,
+            "r": 505,
+            "b": 453
+          },
+          "inView": true,
+          "overlaps": [],
+          "navBottom": 64,
+          "textTop": 196,
+          "textBottom": 609
+        }
+      },
+      "900x800": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1600.webp",
+          "head": {
+            "l": 621,
+            "t": 347,
+            "r": 718,
+            "b": 453
+          },
+          "inView": true,
+          "overlaps": [],
+          "navBottom": 64,
+          "textTop": 200,
+          "textBottom": 614
+        }
+      },
+      "1000x700": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1280.webp",
+          "head": {
+            "l": 717,
+            "t": 303,
+            "r": 803,
+            "b": 397
+          },
+          "inView": true,
+          "overlaps": [],
+          "navBottom": 64,
+          "textTop": 157,
+          "textBottom": 557
+        }
+      },
+      "844x390": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1280.webp",
+          "head": {
+            "l": 622,
+            "t": 163,
+            "r": 680,
+            "b": 227
+          },
+          "inView": true,
+          "overlaps": [],
+          "navBottom": 64,
+          "textTop": 110,
+          "textBottom": 328
+        }
+      },
+      "667x375": {
+        "pass": true,
+        "detail": {
+          "objectPosition": "82% 50%",
+          "loaded": "Kim_Hess_Climbs_Splash04-1280.webp",
+          "head": {
+            "l": 492,
+            "t": 163,
+            "r": 538,
+            "b": 213
+          },
+          "inView": true,
+          "overlaps": [
+            "P"
+          ],
+          "navBottom": 64,
+          "textTop": 89,
+          "textBottom": 335
+        }
+      }
+    },
+    "R3": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "misaligned": []
+        }
+      }
+    },
+    "R6": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "initial": {
+            "scrollerWidth": 358,
+            "maxCardWidth": 331.5,
+            "cards": 18,
+            "scrollLeft": 0,
+            "clipped": 0
+          },
+          "after_step": {
+            "scrollerWidth": 358,
+            "maxCardWidth": 331.5,
+            "cards": 18,
+            "scrollLeft": 356,
+            "clipped": 0
+          }
+        }
+      }
+    },
+    "R8": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      },
+      "768": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      },
+      "1024": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      },
+      "1280": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      },
+      "1920": {
+        "pass": true,
+        "detail": {
+          "overflow_before": 0,
+          "overflow_after": 0,
+          "first_party_errors": []
+        }
+      }
+    },
+    "R5": {
+      "768": {
+        "pass": true,
+        "detail": {
+          "gridLeft": 24,
+          "gridRight": 744,
+          "rows": [
+            {
+              "n": 2,
+              "l": 24,
+              "r": 744
+            },
+            {
+              "n": 2,
+              "l": 24,
+              "r": 744
+            },
+            {
+              "n": 1,
+              "l": 24,
+              "r": 744
+            },
+            {
+              "n": 2,
+              "l": 24,
+              "r": 744
+            }
+          ],
+          "incompleteRows": 0
+        }
+      },
+      "1280": {
+        "pass": true,
+        "detail": {
+          "gridLeft": 32,
+          "gridRight": 1248,
+          "rows": [
+            {
+              "n": 3,
+              "l": 32,
+              "r": 1248
+            },
+            {
+              "n": 2,
+              "l": 32,
+              "r": 1248
+            },
+            {
+              "n": 2,
+              "l": 32,
+              "r": 1248
+            }
+          ],
+          "incompleteRows": 0
+        }
+      }
+    },
+    "R2": {
+      "390": {
+        "pass": true,
+        "detail": [
+          {
+            "href": "#story",
+            "hash": "#story",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#grand-slam",
+            "hash": "#grand-slam",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#book-kim",
+            "hash": "#book-kim",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#blog",
+            "hash": "#blog",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#expeditions",
+            "hash": "#expeditions",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#partners",
+            "hash": "#partners",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#press",
+            "hash": "#press",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#contact",
+            "hash": "#contact",
+            "top": 80,
+            "ok": true
+          }
+        ]
+      },
+      "1440": {
+        "pass": true,
+        "detail": [
+          {
+            "href": "#story",
+            "hash": "#story",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#grand-slam",
+            "hash": "#grand-slam",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#book-kim",
+            "hash": "#book-kim",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#blog",
+            "hash": "#blog",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#expeditions",
+            "hash": "#expeditions",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#partners",
+            "hash": "#partners",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#press",
+            "hash": "#press",
+            "top": 80,
+            "ok": true
+          },
+          {
+            "href": "#contact",
+            "hash": "#contact",
+            "top": 80,
+            "ok": true
+          }
+        ]
+      }
+    },
+    "R7": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "canvas": {
+            "w": 358,
+            "h": 358,
+            "container": 358,
+            "landPixels": 14656
+          },
+          "land_requests": [
+            [
+              "https://kimhessclimbs.com/data/ne_110m_land.json",
+              200
+            ]
+          ]
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "canvas": {
+            "w": 700,
+            "h": 700,
+            "container": 800,
+            "landPixels": 18880
+          },
+          "land_requests": [
+            [
+              "https://kimhessclimbs.com/data/ne_110m_land.json",
+              200
+            ]
+          ]
+        }
+      }
+    },
+    "R11": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "teal_before": 1,
+          "teal_after": 125
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "teal_before": 0,
+          "teal_after": 131
+        }
+      }
+    },
+    "R12": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "scroll_before": 0,
+          "scroll_after": 202
+        }
+      }
+    },
+    "R9": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "intercepted": 1,
+          "success_shown": true
+        }
+      },
+      "1440": {
+        "pass": true,
+        "detail": {
+          "intercepted": 1,
+          "success_shown": true
+        }
+      }
+    },
+    "R10": {
+      "390": {
+        "pass": true,
+        "detail": {
+          "menu_opened": true,
+          "contact_link": true
+        }
+      },
+      "1024": {
+        "pass": true,
+        "detail": {
+          "menu_opened": true,
+          "contact_link": true
+        }
+      }
+    }
+  },
+  "weight": {
+    "390": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1354079,
+        "requests": 32,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1180655,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    },
+    "768": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1702843,
+        "requests": 31,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1529419,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    },
+    "1024": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1722579,
+        "requests": 32,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1549155,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    },
+    "1280": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1722579,
+        "requests": 32,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1549155,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    },
+    "1440": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1722579,
+        "requests": 32,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1549155,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    },
+    "1920": {
+      "before_scroll": {
+        "bytes": 755062,
+        "requests": 8,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll": {
+        "bytes": 1722579,
+        "requests": 32,
+        "failed_bodies": 0,
+        "redirects": 0
+      },
+      "full_scroll_by_host": {
+        "kimhessclimbs.com": 1549155,
+        "fonts.gstatic.com": 78472,
+        "i.ytimg.com": 67153,
+        "fonts.googleapis.com": 27799
+      }
+    }
+  }
+}
