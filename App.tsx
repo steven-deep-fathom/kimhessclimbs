@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Story from './components/Story';
@@ -12,12 +12,71 @@ import Partners from './components/Partners';
 import Press from './components/Press';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import GlobePage from './pages/GlobePage';
-import PrivateIndex from './pages/private/PrivateIndex';
-import ExampleMockup from './pages/private/ExampleMockup';
-import MountainScenePage from './pages/private/MountainScene';
-import EverestScenePage from './pages/private/EverestScene';
-import KilimanjaroScenePage from './pages/private/KilimanjaroScene';
+// Loaded on demand so D3 stays out of the home page download.
+const GlobePage = lazy(() => import('./pages/GlobePage'));
+
+// Private sandbox routes: unlisted mockups, reachable only by direct URL and never
+// linked from the site. Each loads on demand, so none of it is in the home download.
+const privateRoutes: Record<string, React.LazyExoticComponent<React.ComponentType>> = {};
+{
+  const PrivateIndex = lazy(() => import('./pages/private/PrivateIndex'));
+  privateRoutes['#private'] = PrivateIndex;
+  privateRoutes['#private/'] = PrivateIndex;
+  privateRoutes['#private/example'] = lazy(() => import('./pages/private/ExampleMockup'));
+  privateRoutes['#private/mountain-scene'] = lazy(() => import('./pages/private/MountainScene'));
+  privateRoutes['#private/everest'] = lazy(() => import('./pages/private/EverestScene'));
+  privateRoutes['#private/kilimanjaro'] = lazy(() => import('./pages/private/KilimanjaroScene'));
+  privateRoutes['#private/globe-real'] = lazy(() => import('./pages/private/globe/GlobeReal'));
+  privateRoutes['#private/globe-story'] = lazy(() => import('./pages/private/globe/GlobeStory'));
+  privateRoutes['#private/globe-dive'] = lazy(() => import('./pages/private/globe/GlobeDive'));
+  privateRoutes['#private/globe-page'] = lazy(() => import('./pages/private/globe/GlobePageM1'));
+  privateRoutes['#private/summit-hero'] = lazy(() => import('./pages/private/globe/SummitHero'));
+  privateRoutes['#private/ridgeline-hero'] = lazy(() => import('./pages/private/globe/RidgelineHero'));
+}
+
+const RELOAD_FLAG = 'khc-chunk-reload';
+const CHUNK_ERROR = /Loading chunk|dynamically imported module|Importing a module script failed/i;
+
+// A tab opened before a deploy can request a chunk that no longer exists.
+// Reload once to pick up the new build; show a message if that also fails.
+// Other render errors are not reloaded.
+class ChunkErrorBoundary extends React.Component<{ children: React.ReactNode }, { failed: boolean }> {
+  declare props: Readonly<{ children: React.ReactNode }>;
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    if (!CHUNK_ERROR.test(String((error as Error)?.message ?? error))) return;
+    let reloaded = false;
+    try {
+      reloaded = sessionStorage.getItem(RELOAD_FLAG) === '1';
+      if (!reloaded) sessionStorage.setItem(RELOAD_FLAG, '1');
+    } catch {
+      reloaded = true;
+    }
+    if (!reloaded) window.location.reload();
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="bg-brand-dark min-h-screen flex items-center justify-center text-gray-400">
+          Something went wrong loading this page. Please refresh.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const PageFallback: React.FC = () => (
+  <div className="bg-brand-dark min-h-screen flex items-center justify-center">
+    <div className="w-10 h-10 rounded-full border-4 border-gray-700 border-t-brand-teal animate-spin" />
+  </div>
+);
 
 // Simple hash-based router
 function useHashRoute() {
@@ -57,30 +116,30 @@ function HomePage() {
 function App() {
   const route = useHashRoute();
 
-  // Route to different pages based on hash
+  // Clear the one-time reload flag once the page has run for a while, so a later
+  // deploy in the same tab can trigger one reload again without risking a loop.
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try { sessionStorage.removeItem(RELOAD_FLAG); } catch { /* storage unavailable */ }
+    }, 10000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  let page: React.ReactNode;
   if (route === '#globe' || route === '#/globe') {
-    return <GlobePage />;
+    page = <GlobePage />;
+  } else if (privateRoutes[route]) {
+    const PrivatePage = privateRoutes[route];
+    page = <PrivatePage />;
+  } else {
+    page = <HomePage />;
   }
 
-  // Private sandbox routes (unlisted, accessible via direct URL)
-  if (route === '#private' || route === '#private/') {
-    return <PrivateIndex />;
-  }
-  if (route === '#private/example') {
-    return <ExampleMockup />;
-  }
-  if (route === '#private/mountain-scene') {
-    return <MountainScenePage />;
-  }
-  if (route === '#private/everest') {
-    return <EverestScenePage />;
-  }
-  if (route === '#private/kilimanjaro') {
-    return <KilimanjaroScenePage />;
-  }
-
-  // Default to home page
-  return <HomePage />;
+  return (
+    <ChunkErrorBoundary>
+      <Suspense fallback={<PageFallback />}>{page}</Suspense>
+    </ChunkErrorBoundary>
+  );
 }
 
 export default App;

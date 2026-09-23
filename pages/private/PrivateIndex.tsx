@@ -4,7 +4,14 @@ import React from 'react';
 // This page itself is unlisted, only accessible via direct URL
 
 const mockups = [
-  // Seven Summits terrain visualizations
+  // Globe concept mockups (docs/plans/2026-09-22_globe-concept-mockups.md)
+  { name: 'globe-real', description: 'M1 · Photo-real Earth with fly-to (NASA Blue/Black Marble)' },
+  { name: 'globe-story', description: 'M3 · Guided story, 2011 → 2018, ending on the Poles' },
+  { name: 'globe-dive', description: 'M2 · Orbit to mountain close-up (Everest, Kilimanjaro)' },
+  { name: 'globe-page', description: 'M1 in context · the live #globe page with the photo-real globe and stats' },
+  { name: 'summit-hero', description: 'M4 · Summit hero, a new take on the Everest/Kilimanjaro scenes (sun sweep, haze)' },
+  { name: 'ridgeline-hero', description: 'M5 · Ridgeline hero, a new take on mountain-scene (SVG, no WebGL)' },
+  // Original experiments (M4 and M5 are the new takes on these)
   { name: 'everest', description: 'Mount Everest - 8,849m - Icy blue terrain' },
   { name: 'kilimanjaro', description: 'Mount Kilimanjaro - 5,895m - Warm orange terrain' },
   // Other mockups
@@ -18,7 +25,7 @@ export default function PrivateIndex() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Private Sandbox</h1>
         <p className="text-slate-400 mb-8">
-          Unlisted mockups and experiments. These pages are live but not linked from the main site.
+          Unlisted mockups and experiments. These pages are not linked from the main site.
         </p>
 
         {mockups.length === 0 ? (

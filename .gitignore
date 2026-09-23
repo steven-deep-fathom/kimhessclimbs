@@ -25,3 +25,6 @@ dist-ssr
 
 # Local reference documentation
 _ref-hess/
+
+# Audit screenshots (large; summaries and audit.json are committed)
+docs/plans/evidence/**/*.png
