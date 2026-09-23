@@ -196,5 +196,13 @@ Visual redesign, the globe concepts (`2026-09-22_globe-concept-mockups.md`), sel
   - A vertical swipe scrolls the page (0 → 200 px).
   - A sideways swipe rotates the globe without scrolling, and auto-rotation resumes after 2 s.
 - **R4 at desktop widths, hero.** The subtitle is `lg:max-w-xl`. The photo sits at the centre at `lg`, at 40% on landscape screens from `xl`, and at 68% on portrait screens from `lg`.
-  - Checked at 16 sizes from 1024×768 to 2560×1440, including an iPad Pro in portrait. The head is in view and clear of text at every size except 1440×2560 (a monitor rotated to portrait), where the head is cropped off the right edge. That is not handled.
+  - Checked at 16 sizes from 1024×768 to 2560×1440, including an iPad Pro in portrait. The head is in view and clear of text at every size except portrait windows at `lg` or wider that are taller than about 1.6× their width (1080×1920, 1200×1920, 1440×2560). On those, the head is cropped off the right edge, the same as before this fix. That case is not handled.
 - **Gate:** R1–R12 pass at every width (`evidence/2026-09-23_fixes/`).
+- **Independent critic (2026-09-23):** APPROVE, with no HIGH or MEDIUM findings.
+  - It confirmed R11 and R12 observe the real symptoms, and confirmed the swipe fix with raw touch events.
+  - Listeners don't leak, and pinch and mouse drag still work.
+  - The hero passes at 27 more sizes, and Tailwind orders the new photo-position rules correctly.
+  - LOW findings, accepted:
+    - iOS Safari isn't tested. If a sideways swipe drifts vertically in its first 8 px, the page may scroll and the globe rotate at once. Confirm on a real iPhone.
+    - Auto-rotate resume timers can overlap (unchanged code).
+    - A tap still pauses rotation for 2 s.
