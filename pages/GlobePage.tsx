@@ -146,9 +146,9 @@ const GlobePage: React.FC = () => {
           {/* Globe and Summit List Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
-            {/* Summit List - Left Side */}
+            {/* Summit List - Left Side (desktop); phones get the chip row under the globe */}
             <div className="lg:col-span-1 order-2 lg:order-1">
-              <div className="bg-brand-slate rounded-2xl border border-gray-700 overflow-hidden">
+              <div className="hidden lg:block bg-brand-slate rounded-2xl border border-gray-700 overflow-hidden">
                 <div className="p-4 border-b border-gray-700">
                   <h2 className="text-lg font-heading font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Mountain className="w-5 h-5 text-brand-teal" />
@@ -203,22 +203,38 @@ const GlobePage: React.FC = () => {
             <div className="lg:col-span-2 order-1 lg:order-2">
               <RotatingGlobe
                 ref={globeRef}
-                width={700}
-                height={550}
                 activeSummit={activeSummit}
                 className="w-full"
               />
 
               {/* Instructions */}
               <div className="mt-4 text-center text-sm text-gray-500">
-                Drag to rotate &bull; Scroll to zoom &bull; Click a summit to locate
+                <span className="hidden lg:inline">Drag to rotate &bull; Scroll to zoom &bull; Click a summit to locate</span>
+                <span className="lg:hidden">Drag to rotate &bull; Pinch to zoom &bull; Tap a summit below</span>
+              </div>
+
+              {/* Summit chips (below lg) */}
+              <div className="lg:hidden mt-4 -mx-4 px-4 flex gap-2 overflow-x-auto scrollbar-hide snap-x">
+                {SEVEN_SUMMITS.map((summit) => (
+                  <button
+                    key={summit.id}
+                    onClick={() => handleSummitClick(summit)}
+                    className={`flex-shrink-0 snap-start px-4 py-2 rounded-full border text-sm font-bold whitespace-nowrap transition-colors ${
+                      activeSummit === summit.id
+                        ? 'bg-brand-teal border-brand-teal text-white'
+                        : 'bg-brand-slate border-gray-700 text-gray-200'
+                    }`}
+                  >
+                    {summit.name}
+                  </button>
+                ))}
               </div>
 
               {/* Selected Summit Details */}
               {selectedSummit && (
                 <div className="mt-6 p-6 bg-brand-slate rounded-2xl border border-gray-700">
                   <div className="flex items-start gap-6">
-                    <div className="w-16 h-16 rounded-full bg-brand-teal/20 flex items-center justify-center flex-shrink-0">
+                    <div className="hidden sm:flex w-16 h-16 rounded-full bg-brand-teal/20 items-center justify-center flex-shrink-0">
                       <Mountain className="w-8 h-8 text-brand-teal" />
                     </div>
                     <div className="flex-1">
@@ -227,7 +243,7 @@ const GlobePage: React.FC = () => {
                       </h3>
                       <p className="text-brand-teal font-semibold mt-1">{selectedSummit.continent}</p>
 
-                      <div className="grid grid-cols-3 gap-6 mt-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-4">
                         <div className="flex items-center gap-3">
                           <TrendingUp className="w-6 h-6 text-brand-teal" />
                           <div>

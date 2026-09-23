@@ -44,6 +44,9 @@ const Navbar: React.FC = () => {
         top: offsetPosition,
         behavior: "smooth"
       });
+    } else {
+      // Not on the home page (e.g. #globe): route there; HomePage scrolls to the hash.
+      window.location.hash = href;
     }
   };
 
@@ -65,49 +68,31 @@ const Navbar: React.FC = () => {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden lg:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navLinks.map((link) => (
+          {/* "Book Now" covers Contact here; social links live in the phone menu, contact card and footer. */}
+          <div className="hidden xl:block">
+            <div className="ml-6 flex items-baseline space-x-4">
+              {navLinks.filter((link) => link.href !== '#contact').map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-gray-300 hover:text-brand-teal transition-colors duration-200 px-3 py-2 rounded-md text-sm font-semibold uppercase tracking-wider"
+                  className="whitespace-nowrap text-gray-300 hover:text-brand-teal transition-colors duration-200 px-2 py-2 rounded-md text-sm font-semibold uppercase tracking-wider"
                 >
                   {link.name}
                 </a>
               ))}
-              <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="bg-brand-teal text-white hover:bg-teal-600 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-brand-teal/30">
+              <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="whitespace-nowrap bg-brand-teal text-white hover:bg-teal-600 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-brand-teal/30">
                 Book Now
               </a>
-              {/* Social Icons */}
-              <div className="flex items-center gap-3 ml-4 pl-4 border-l border-gray-700">
-                <a
-                  href="https://www.instagram.com/kimmyhess/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-brand-teal transition-colors duration-200"
-                  aria-label="Instagram"
-                >
-                  <Instagram size={20} />
-                </a>
-                <a
-                  href="https://www.facebook.com/kimhessclimbs/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-brand-teal transition-colors duration-200"
-                  aria-label="Facebook"
-                >
-                  <Facebook size={20} />
-                </a>
-              </div>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
               className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-brand-teal focus:outline-none"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -118,7 +103,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-brand-slate absolute w-full shadow-xl border-b border-gray-800">
+        <div className="xl:hidden bg-brand-slate absolute w-full shadow-xl border-b border-gray-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => (
               <a

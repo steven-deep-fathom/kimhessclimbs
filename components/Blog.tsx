@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BLOG_POSTS } from '../constants';
 import { BlogPost } from '../types';
-import { assetPath } from '../utils/assetPath';
+import { ResponsiveImage } from './ResponsiveImage';
 
 const Blog: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -21,7 +21,10 @@ const Blog: React.FC = () => {
 
   const scrollCarousel = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
-      const scrollAmount = 408; // Card width (384px / w-96) + gap (24px)
+      // One card width plus the gap; cards are narrower on phones.
+      const card = carouselRef.current.firstElementChild as HTMLElement | null;
+      const gap = parseFloat(getComputedStyle(carouselRef.current).columnGap) || 0;
+      const scrollAmount = card ? card.getBoundingClientRect().width + gap : carouselRef.current.clientWidth;
       const newScrollLeft = carouselRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
       carouselRef.current.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
     }
@@ -75,12 +78,13 @@ const Blog: React.FC = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="flex-shrink-0 w-96 bg-brand-slate rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-800 cursor-pointer group snap-start"
+                className="flex-shrink-0 w-[85vw] max-w-96 bg-brand-slate rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-800 cursor-pointer group snap-start"
                 onClick={() => openPost(post)}
               >
                 <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={assetPath(post.image)}
+                  <ResponsiveImage
+                    src={post.image}
+                    sizes="(min-width: 640px) 384px, 85vw"
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -138,8 +142,10 @@ const Blog: React.FC = () => {
             >
               {/* Hero Image */}
               <div className="relative h-64 md:h-80">
-                <img
-                  src={assetPath(selectedPost.image)}
+                <ResponsiveImage
+                  src={selectedPost.image}
+                  sizes="(min-width: 768px) 768px, 100vw"
+                  eager
                   alt={selectedPost.title}
                   className="w-full h-full object-cover"
                 />

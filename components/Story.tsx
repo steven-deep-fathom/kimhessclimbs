@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { assetPath } from '../utils/assetPath';
+import { ResponsiveImage } from './ResponsiveImage';
 
 const Story: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section id="story" className="py-24 bg-brand-dark text-white">
+    <section id="story" className="py-24 bg-brand-dark text-white overflow-x-clip">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-20">
@@ -32,8 +32,9 @@ const Story: React.FC = () => {
             className="relative"
           >
             <div className="rounded-xl overflow-hidden shadow-2xl border border-gray-800">
-              <img
-                src={assetPath("/images/portraits/Photo-May-21-4-23-03-AM-1-2.jpg")}
+              <ResponsiveImage
+                src="/images/portraits/Photo-May-21-4-23-03-AM-1-2.jpg"
+                sizes="(min-width: 1024px) 600px, 100vw"
                 alt="Kim on Everest Summit"
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
               />

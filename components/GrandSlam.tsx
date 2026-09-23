@@ -91,7 +91,7 @@ const GrandSlam: React.FC = () => {
                             </div>
 
                             {/* CONTENT SIDE */}
-                            <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-24 md:text-right items-end' : 'md:pl-24 md:text-left items-start'} flex flex-col`}>
+                            <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-24 md:text-right md:items-end' :'md:pl-24 md:text-left items-start'} flex flex-col`}>
                                 
                                 {/* Metadata Badge */}
                                 <div className={`flex items-center gap-3 mb-3 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>

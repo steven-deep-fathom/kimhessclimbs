@@ -128,7 +128,9 @@ R4_JS = """(head) => {
   const rw = img.naturalWidth * s, rh = img.naturalHeight * s;
   const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
   const ox = r.left + (r.width - rw) * pos[0], oy = r.top + (r.height - rh) * pos[1];
-  const box = {l: ox + head[0] * s, t: oy + head[1] * s, r: ox + head[2] * s, b: oy + head[3] * s};
+  // head is in 1600x900 source pixels; the loaded file may be a smaller WebP variant.
+  const k = s * img.naturalWidth / 1600;
+  const box = {l: ox + head[0] * k, t: oy + head[1] * k, r: ox + head[2] * k, b: oy + head[3] * k};
   const glyphs = [];
   for (const el of hero.querySelectorAll('h1, h2, p')) {
     const range = document.createRange(); range.selectNodeContents(el);
@@ -137,8 +139,21 @@ R4_JS = """(head) => {
   for (const a of hero.querySelectorAll('a')) { const g = a.getBoundingClientRect(); glyphs.push({tag: 'A', l: g.left, t: g.top, r: g.right, b: g.bottom}); }
   const hits = glyphs.filter(g => g.l < box.r && g.r > box.l && g.t < box.b && g.b > box.t).map(g => g.tag);
   const inView = box.l >= 0 && box.r <= innerWidth && box.t >= 0 && box.b <= innerHeight;
-  return {objectPosition: getComputedStyle(img).objectPosition, head: Object.fromEntries(Object.entries(box).map(([k, v]) => [k, Math.round(v)])), inView, overlaps: [...new Set(hits)]};
+  return {objectPosition: getComputedStyle(img).objectPosition, loaded: img.currentSrc.split('/').pop(), head: Object.fromEntries(Object.entries(box).map(([k, v]) => [k, Math.round(v)])), inView, overlaps: [...new Set(hits)]};
 }"""
+
+HERO_CLEAR_JS = """() => {
+  const hero = document.querySelector('section');
+  const nav = document.querySelector('nav .max-w-7xl').getBoundingClientRect();
+  const els = [...hero.querySelectorAll('h1, h2, p, a')].map(e => e.getBoundingClientRect());
+  return {navBottom: Math.round(nav.bottom), textTop: Math.round(Math.min(...els.map(r => r.top))),
+          textBottom: Math.round(Math.max(...els.map(r => r.bottom)))};
+}"""
+
+# Extra hero sizes (critic, 2026-09-23): mid-size windows must keep text off the
+# head; every size keeps text below the nav and above the bottom edge. Screens
+# 500 px tall or less can't clear the head and are checked for fit only.
+HERO_EXTRA = [(640, 800), (900, 800), (1000, 700), (844, 390), (667, 375)]
 
 R5_JS = """() => {
   const grid = [...document.querySelectorAll('#expeditions *')].find(e => getComputedStyle(e).display === 'grid');
@@ -154,14 +169,26 @@ R5_JS = """() => {
 R6_JS = """() => {
   const scroller = [...document.querySelectorAll('#blog *')].find(e => ['auto', 'scroll'].includes(getComputedStyle(e).overflowX));
   const cards = [...scroller.children];
-  return {scrollerWidth: scroller.clientWidth, maxCardWidth: Math.max(...cards.map(c => c.getBoundingClientRect().width)), cards: cards.length};
+  const s = scroller.getBoundingClientRect();
+  // Cards at least half inside the scroller's box must be wholly inside it.
+  const clipped = cards.map(c => c.getBoundingClientRect())
+    .filter(r => Math.min(r.right, s.right) - Math.max(r.left, s.left) > r.width / 2)
+    .filter(r => r.left < s.left - 2 || r.right > s.right + 2).length;
+  return {scrollerWidth: scroller.clientWidth, maxCardWidth: Math.max(...cards.map(c => c.getBoundingClientRect().width)),
+          cards: cards.length, scrollLeft: Math.round(scroller.scrollLeft), clipped};
 }"""
 
 R7_JS = """() => {
   const c = document.querySelector('canvas');
   if (!c) return null;
   const r = c.getBoundingClientRect(), p = c.parentElement.getBoundingClientRect();
-  return {w: Math.round(r.width), h: Math.round(r.height), container: Math.round(p.width)};
+  // Land is drawn as #475569 halftone dots; count those pixels.
+  const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+  let land = 0;
+  for (let i = 0; i < d.length; i += 4) {
+    if (Math.abs(d[i] - 71) < 6 && Math.abs(d[i + 1] - 85) < 6 && Math.abs(d[i + 2] - 105) < 6) land++;
+  }
+  return {w: Math.round(r.width), h: Math.round(r.height), container: Math.round(p.width), landPixels: land};
 }"""
 
 
@@ -222,10 +249,17 @@ def run():
                        min(v for v in (i["badge"], i["h3"], i["p"]) if v is not None) > 2]
                 record("R3", w, not bad, {"misaligned": bad})
 
-            # R6 blog cards
+            # R6 blog cards: fit, and stay whole after one press of the scroll button
             if w == 390:
+                page.locator("#blog").scroll_into_view_if_needed()
+                page.wait_for_timeout(800)
                 blog = page.evaluate(R6_JS)
-                record("R6", w, blog["maxCardWidth"] <= blog["scrollerWidth"], blog)
+                page.locator('#blog button[aria-label="Scroll right"]').click()
+                page.wait_for_timeout(1200)
+                stepped = page.evaluate(R6_JS)
+                record("R6", w, blog["maxCardWidth"] <= blog["scrollerWidth"] and blog["clipped"] == 0
+                       and stepped["scrollLeft"] > 0 and stepped["clipped"] == 0, {"initial": blog, "after_step": stepped})
+                page.evaluate("window.scrollTo(0, 0)")
 
             full_scroll(page)
             overflow_after = page.evaluate(OVERFLOW_JS)
@@ -246,6 +280,18 @@ def run():
             }
             record("R8", w, overflow_before <= 0 and overflow_after <= 0 and not errors,
                    {"overflow_before": overflow_before, "overflow_after": overflow_after, "first_party_errors": errors})
+            ctx.close()
+
+        for w, h in HERO_EXTRA:
+            ctx = browser.new_context(viewport={"width": w, "height": h}, is_mobile=w < 768, has_touch=w < 768)
+            page = ctx.new_page()
+            goto(page)
+            page.wait_for_timeout(500)
+            hero = page.evaluate(R4_JS, list(HEAD_BOX))
+            fit = page.evaluate(HERO_CLEAR_JS)
+            ok = fit["textTop"] >= fit["navBottom"] and fit["textBottom"] <= h - 8 and (h <= 500 or not hero["overlaps"])
+            results.setdefault("R4", {})[f"{w}x{h}"] = {"pass": ok, "detail": {**hero, **fit}}
+            page.screenshot(path=str(OUT / f"hero-{w}x{h}.png"))
             ctx.close()
 
         # R2 globe-page nav, R7 globe sizing and local land data
@@ -275,8 +321,9 @@ def run():
                     outcomes.append({"href": href, "ok": False, "reason": "link not visible"})
                     continue
                 top = page.evaluate("(id) => { const e = document.getElementById(id); return e ? Math.round(e.getBoundingClientRect().top) : null; }", href[1:])
-                outcomes.append({"href": href, "hash": page.evaluate("location.hash"), "top": top,
-                                 "ok": top is not None and -5 <= top <= 100})
+                hash_now = page.evaluate("location.hash")
+                outcomes.append({"href": href, "hash": hash_now, "top": top,
+                                 "ok": hash_now == href and top is not None and -5 <= top <= 100})
             record("R2", w, bool(outcomes) and all(o["ok"] for o in outcomes), outcomes)
             ctx.close()
 
@@ -289,7 +336,8 @@ def run():
             page.wait_for_timeout(2000)
             canvas = page.evaluate(R7_JS)
             local_ok = any(u.startswith(ORIGIN) and s == 200 for u, s in land)
-            ok = bool(canvas) and abs(canvas["w"] - canvas["h"]) <= 2 and canvas["w"] >= min(canvas["container"], 700) - 2 and local_ok
+            ok = (bool(canvas) and abs(canvas["w"] - canvas["h"]) <= 2 and canvas["w"] >= min(canvas["container"], 700) - 2
+                  and local_ok and canvas["landPixels"] > 500)
             record("R7", w, ok, {"canvas": canvas, "land_requests": land})
             page.screenshot(path=str(OUT / f"globe-{w}.png"), full_page=True)
             ctx.close()
@@ -344,6 +392,8 @@ def run():
     for check in sorted(results, key=lambda c: int(c[1:])):
         row = [results[check].get(str(w)) for w in WIDTHS]
         lines.append(f"| {check} | " + " | ".join("—" if r is None else ("pass" if r["pass"] else "FAIL") for r in row) + " |")
+    extra = {k: v for k, v in results.get("R4", {}).items() if "x" in k}
+    lines += ["", "R4 extra sizes: " + ", ".join(f"{k} {'pass' if v['pass'] else 'FAIL'}" for k, v in extra.items())]
     lines += ["", "| Width | Before scroll (MB, requests) | Full scroll (MB, requests) | Failed bodies |", "|---|---|---|---|"]
     for w, v in weights.items():
         lines.append(f"| {w} | {v['before_scroll']['bytes'] / 1e6:.2f}, {v['before_scroll']['requests']} | "

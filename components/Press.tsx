@@ -1,6 +1,7 @@
 import React from 'react';
 import { PRESS_LINKS, VIDEOS } from '../constants';
 import { ExternalLink } from 'lucide-react';
+import { YouTubeFacade } from './YouTubeFacade';
 
 const Press: React.FC = () => {
   return (
@@ -17,15 +18,7 @@ const Press: React.FC = () => {
           {VIDEOS.map((video) => (
             <div key={video.id} className="bg-black rounded-lg overflow-hidden border border-gray-800 shadow-lg hover:shadow-brand-teal/20 transition-all duration-300">
               <div className="aspect-video relative">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src={video.url} 
-                  title={video.title}
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
+                <YouTubeFacade id={video.id} title={video.title} />
               </div>
               <div className="p-4">
                 <h4 className="font-heading text-lg text-white">{video.title}</h4>

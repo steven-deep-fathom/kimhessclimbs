@@ -4,6 +4,13 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EXPEDITIONS } from '../constants';
 import { Expedition } from '../types';
 import { assetPath } from '../utils/assetPath';
+import { ResponsiveImage, webpSrcSet, smallestVariant } from './ResponsiveImage';
+
+// Wide cards so 7 photos fill whole rows: 8 cells in 2 columns, 9 in 3.
+const WIDE_CARD: Record<string, string> = {
+  everest: 'md:col-span-2',
+  vinson: 'lg:col-span-2',
+};
 
 const Expeditions: React.FC = () => {
   const [selectedExpedition, setSelectedExpedition] = useState<Expedition | null>(null);
@@ -57,7 +64,7 @@ const Expeditions: React.FC = () => {
           <p className="text-gray-400 mt-4 md:mt-0">Scenes from the Summit</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row-dense auto-rows-[16rem] lg:auto-rows-[18rem] gap-6">
           {EXPEDITIONS.filter(e => e.completed).map((expedition, index) => (
             <motion.div
               key={expedition.id}
@@ -65,11 +72,12 @@ const Expeditions: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer"
+              className={`group relative overflow-hidden rounded-lg cursor-pointer ${WIDE_CARD[expedition.id] ?? ''}`}
               onClick={() => openLightbox(expedition)}
             >
-              <img
-                src={assetPath(expedition.image)}
+              <ResponsiveImage
+                src={expedition.image}
+                sizes="(min-width: 1024px) 800px, 100vw"
                 alt={expedition.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
               />
@@ -147,6 +155,8 @@ const Expeditions: React.FC = () => {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.2 }}
                   src={assetPath(images[currentImageIndex])}
+                  srcSet={webpSrcSet(images[currentImageIndex])}
+                  sizes="(min-width: 1024px) 1024px, 100vw"
                   alt={`${selectedExpedition.name} - Photo ${currentImageIndex + 1}`}
                   className="w-full h-auto max-h-[60vh] object-contain rounded-lg"
                 />
@@ -186,7 +196,9 @@ const Expeditions: React.FC = () => {
                         }`}
                       >
                         <img
-                          src={assetPath(img)}
+                          src={smallestVariant(img)}
+                          loading="lazy"
+                          decoding="async"
                           alt={`Thumbnail ${idx + 1}`}
                           className="w-full h-full object-cover"
                         />

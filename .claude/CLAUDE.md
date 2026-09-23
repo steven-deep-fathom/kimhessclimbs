@@ -11,18 +11,18 @@ Personal website for Kim Hess, mountaineer pursuing the **Explorers Grand Slam**
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | React | 19 | UI Framework |
-| Vite | 6 | Build Tool (port 8849) |
+| Vite | 6 | Build Tool (port 6900) |
 | TypeScript | 5.8 | Type Safety |
 | Three.js | 0.182 | 3D Globe & Terrain |
 | Framer Motion | 12.x | Animations |
-| Tailwind CSS | CDN | Styling |
+| Tailwind CSS | 3.4 (PostCSS) | Styling |
 | D3.js | 7.9 | Data Visualization |
 | Lucide React | Icons | Icon Library |
 
 ## Quick Commands
 
 ```bash
-npm run dev      # Start dev server (port 8849)
+npm run dev      # Start dev server (http://localhost:6900)
 npm run build    # Production build to dist/
 npm run preview  # Preview production build
 ```
@@ -107,8 +107,8 @@ ExpeditionCard.displayName = 'ExpeditionCard'
 
 - Expedition format: `{Mountain}_{XX}-1340x891.jpg`
 - Blog format: `{description}-small-{width}x{height}.jpg`
-- Use WebP where possible for better compression
-- Keep images optimized (use squoosh.app or similar)
+- Render images with `ResponsiveImage` (WebP srcset from `utils/imageManifest.json`)
+- After adding images, run `node scripts/optimize-images.mjs` and commit the `.webp` files and manifest
 
 ## Routing
 

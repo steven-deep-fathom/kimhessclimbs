@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, ArrowRight } from 'lucide-react';
-import { assetPath } from '../utils/assetPath';
+import { ResponsiveImage } from './ResponsiveImage';
 
 const Speaking: React.FC = () => {
   const testimonials = [
@@ -43,8 +43,9 @@ const Speaking: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-4 relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800 group min-h-[400px] lg:min-h-0 order-2 lg:order-1"
         >
-            <img
-            src={assetPath("/images/portraits/KimmySteamboat-7.jpg")}
+            <ResponsiveImage
+            src="/images/portraits/KimmySteamboat-7.jpg"
+            sizes="(min-width: 1024px) 400px, 100vw"
             alt="Kim Hess Portrait"
             className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
@@ -95,8 +96,9 @@ const Speaking: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800 group min-h-[250px]"
             >
-                <img
-                src={assetPath("/images/portraits/Evre-Event-small.jpg")}
+                <ResponsiveImage
+                src="/images/portraits/Evre-Event-small.jpg"
+                sizes="(min-width: 1024px) 800px, 100vw"
                 alt="Kim Hess Speaking Event"
                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />

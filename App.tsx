@@ -95,6 +95,18 @@ function useHashRoute() {
 }
 
 function HomePage() {
+  // Deep links (/#story) and nav clicks from other pages land here before the
+  // sections exist, so the browser can't jump; scroll to the hash after mount,
+  // clearing the fixed nav.
+  useEffect(() => {
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (!target) return;
+    const frame = requestAnimationFrame(() => {
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="bg-slate-900 min-h-screen">
       <Navbar />

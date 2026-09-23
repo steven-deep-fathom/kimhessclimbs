@@ -6,7 +6,7 @@ Personal website for Kim Hess, mountaineer pursuing the Explorers Grand Slam (Se
 
 - **Framework**: React 19 with TypeScript
 - **Build Tool**: Vite 6
-- **Styling**: Tailwind CSS (via CDN + custom config in index.html)
+- **Styling**: Tailwind CSS 3.4 via PostCSS (`tailwind.config.js`, `index.css`)
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Fonts**: Montserrat (headings), Open Sans (body) via Google Fonts
@@ -15,9 +15,11 @@ Personal website for Kim Hess, mountaineer pursuing the Explorers Grand Slam (Se
 
 ```bash
 npm install
-npm run dev      # Development server
+npm run dev      # Development server (http://localhost:6900)
 npm run build    # Production build
-npm run preview  # Preview production build
+npm run preview  # Preview production build (port 6900)
+node scripts/optimize-images.mjs     # WebP variants + utils/imageManifest.json (needs cwebp)
+python3 scripts/audit.py URL OUT_DIR # Mobile/performance regression checks (Playwright)
 ```
 
 ## Project Structure
@@ -46,7 +48,8 @@ kim-hess-site/
 │   └── backgrounds/     # Background images
 ├── App.tsx              # Main app component
 ├── index.tsx            # React entry point
-├── index.html           # HTML template with Tailwind config
+├── index.html           # HTML template
+├── index.css            # Tailwind entry and global styles
 ├── constants.ts         # Expeditions, press, videos, partners data
 ├── blogData.ts          # Full blog post content (18 posts)
 ├── types.ts             # TypeScript interfaces
@@ -95,7 +98,7 @@ Contains 18 full blog posts with:
 
 ## Styling
 
-### Brand Colors (defined in index.html Tailwind config)
+### Brand Colors (defined in tailwind.config.js)
 ```javascript
 brand: {
   teal: '#14b8a6',    // Primary accent color
@@ -149,9 +152,12 @@ Old WordPress site files archived at:
 ## Development Notes
 
 - All images served from `/public/images/` (Vite serves static assets)
+- Images render through `components/ResponsiveImage.tsx`, which serves WebP variants listed in `utils/imageManifest.json`. After adding or changing an image, run `node scripts/optimize-images.mjs` and commit the `.webp` files and manifest (CI has no `cwebp`)
+- YouTube videos use `components/YouTubeFacade.tsx`: a thumbnail until clicked
+- Globe land outlines load from `public/data/ne_110m_land.json` (Natural Earth, public domain)
 - No backend required - fully static site
 - Blog content stored in `blogData.ts` (no CMS)
-- Responsive design with Tailwind breakpoints (sm, md, lg)
+- Responsive design with Tailwind breakpoints (sm, md, lg, xl); the nav switches to the menu button below xl (1280 px)
 - Animations use Framer Motion's `whileInView` for scroll-triggered effects
 
 ## Deployment
