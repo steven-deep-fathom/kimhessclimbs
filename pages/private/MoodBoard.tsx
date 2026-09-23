@@ -165,6 +165,8 @@ const SITES: Site[] = [
 type Verdict = 'love' | 'some' | 'no';
 const LABELS: Record<Verdict, string> = { love: 'Love', some: 'Some of it', no: 'Not for Kim' };
 const STORE = 'khc-moodboard';
+// Same Formspree form as the site's contact form (components/Contact.tsx).
+const FORMSPREE = 'https://formspree.io/f/xanrdqkr';
 
 interface Saved {
   name: string;
@@ -184,6 +186,7 @@ function load(): Saved {
 const MoodBoard: React.FC = () => {
   const [saved, setSaved] = useState<Saved>(load);
   const [copied, setCopied] = useState<'no' | 'yes' | 'failed'>('no');
+  const [sent, setSent] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -201,6 +204,7 @@ const MoodBoard: React.FC = () => {
   useEffect(() => {
     try { localStorage.setItem(STORE, JSON.stringify(saved)); } catch { /* storage unavailable */ }
     setCopied('no');
+    setSent((x) => (x === 'sending' ? x : 'idle'));
   }, [saved]);
 
   useEffect(() => {
@@ -228,6 +232,20 @@ const MoodBoard: React.FC = () => {
     }
   };
 
+  const send = async () => {
+    setSent('sending');
+    const body = new FormData();
+    body.append('name', saved.name || '(no name)');
+    body.append('subject', `Mood board reactions from ${saved.name || '(no name)'}`);
+    body.append('message', output);
+    try {
+      const response = await fetch(FORMSPREE, { method: 'POST', body, headers: { Accept: 'application/json' } });
+      setSent(response.ok ? 'sent' : 'failed');
+    } catch {
+      setSent('failed');
+    }
+  };
+
   return (
     <div className="mb">
       <header className="mb-head">
@@ -241,7 +259,7 @@ const MoodBoard: React.FC = () => {
           (&ldquo;photos this big&rdquo;, &ldquo;too dark&rdquo;, &ldquo;this font&rdquo;). Tap any screenshot to enlarge it. The big image is the
           first screen on a laptop, the small one is a phone, and the strip below is further down the page.
         </p>
-        <p>When you&rsquo;re done, press <b>Copy my reactions</b> and send them to Steven. Your picks stay saved in this browser.</p>
+        <p>When you&rsquo;re done, press <b>Send my reactions</b>. They&rsquo;re emailed through the site&rsquo;s contact form. Your picks also stay saved in this browser, and <b>Copy</b> gives you the text if sending doesn&rsquo;t work.</p>
         <label className="mb-name">
           Your name
           <input type="text" value={saved.name} onChange={(e) => setSaved((s) => ({ ...s, name: e.target.value }))} autoComplete="name" />
@@ -308,7 +326,11 @@ const MoodBoard: React.FC = () => {
 
       <div className="mb-out">
         <textarea readOnly value={output || 'No reactions yet'} aria-label="Your reactions" />
-        <button type="button" onClick={copy} disabled={!output}>{copied === 'yes' ? 'Copied' : copied === 'failed' ? 'Select the text to copy' : 'Copy my reactions'}</button>
+        <button type="button" onClick={send} disabled={!output || sent === 'sending'}>
+          {sent === 'sending' ? 'Sending…' : sent === 'sent' ? 'Sent' : sent === 'failed' ? 'Not sent: try again' : 'Send my reactions'}
+        </button>
+        <button type="button" className="mb-copy" onClick={copy} disabled={!output}>{copied === 'yes' ? 'Copied' : copied === 'failed' ? 'Select the text' : 'Copy'}</button>
+        <p className="mb-status" role="status">{sent === 'sent' ? 'Sent. Thank you!' : sent === 'failed' ? 'Sending failed. Use Copy and send the text to Steven.' : ''}</p>
       </div>
 
       <dialog ref={dialogRef} className="mb-zoom" onClose={() => setZoom(null)} onClick={() => setZoom(null)}>
