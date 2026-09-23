@@ -1,6 +1,6 @@
 # Mobile and performance pass
 
-**Status:** In Progress. Phase 1 approved by Steven 2026-09-22; implemented on `perf-mobile`, uncommitted, awaiting his review on the local dev server before any commit or publish.
+**Status:** Completed. Phase 1 was released 2026-09-22 in merge `d928cce`. Phases 2–3 and the Phase 4 docs were approved for production by Steven on 2026-09-23 and merged from `perf-mobile-2`.
 **Risk:** HIGH (build pipeline change, more than two files, live site deploys on push to `main`)
 **Repo:** `/Users/stevenhess/Code/hobby/Kim_Hess_Climbs/kim-hess-site`, `main` at `4089c8d`, remote `github.com/steven-deep-fathom/kimhessclimbs`. `.github/workflows/deploy.yml` builds (Node 20, `npm ci && npm run build`) and publishes `dist/` to GitHub Pages on every push to `main` and on manual dispatch. If the CI build fails, nothing deploys and the current site stays up.
 
@@ -154,3 +154,32 @@ Visual redesign, the globe concepts (`2026-09-22_globe-concept-mockups.md`), sel
 - Open, to fix in Phase 3 when those checks become the gates: R2 doesn't assert the hash, R6 doesn't exercise the scroll step, and R7 doesn't verify land pixels.
 - **Budget note:** the ≤ 1.5 MB / ≤ 3 MB budgets were set against this decoded metric. The baseline is 25.6 MB, so Phase 2 has to remove YouTube (12.8 MB) and make images lazy to reach them.
 
+
+**Phases 2–3 (2026-09-23), branch `perf-mobile-2` from `d928cce`, uncommitted:**
+- **Images:** `scripts/optimize-images.mjs` writes 238 WebP variants for 124 images. The repo grows 15.6 MB. `utils/imageManifest.json` (8.5 KB) stores `path → [width, height, ...variant widths]`.
+  - Deviation: a source also gets a variant at its own width when it is under 1280 px, or more than 300 px wider than 1280 (capped at 1920). So the hero gets a 1600, and 1500 px sources get only 640 and 1280. The 1500 variants were 4 MB of near-duplicates.
+  - `ResponsiveImage` is used at every call site in the table. The lightbox uses `srcSet` and thumbnails use the smallest variant.
+- **Videos and land data:** `YouTubeFacade` replaces the three iframes. Land data is served from `public/data/ne_110m_land.json`.
+- **Layout fixes:** all Phase 3 items are done as written, with one exception in the hero (D3, changed after the critic's review):
+  - Every width below `lg` uses the phone split: eyebrow and name above Kim's head (the top 43%), subtitle and buttons below it (from 57%).
+  - The planned tablet "all text below the head" layout only fit at about 768×1024. At 640×800, 900×800 and 1000×700 it covered her head, and on landscape phones it slid under the nav.
+  - Screens 500 px tall or less fall back to the centred desktop layout at a smaller size. At 375–430 px tall the subtitle still crosses the head box, which can't be avoided.
+- **Audit:** the three open gaps from Phase 1 are closed. R2 now checks the hash, R6 presses the scroll button, and R7 counts land pixels.
+  - R4 now scales the head box by the loaded variant's size.
+  - R4 adds 640×800, 900×800, 1000×700, 844×390 and 667×375.
+- **Gate:**
+  - R1–R10 pass at every width and at every extra R4 size (`evidence/2026-09-23_phase23/`).
+  - Weight before scrolling is 0.75 MB, against a 1.5 MB budget (baseline 25.6). A full scroll is 1.35–1.72 MB, against a 3 MB budget.
+  - No failed bodies and no first-party console errors.
+  - Under Node 20.20.2: clean `npm ci`, then `build` and `tsc` pass. The main JS is 420 KB (Phase 1: 406). `dist/` contains `CNAME`, `data/` and `images/`.
+  - One video was clicked through in automation; the critic also played one. All three share one component.
+- **Phase 4 docs:** `CLAUDE.md`, `.claude/CLAUDE.md` and `.claude/rules/styling.md` are updated. `AGENTS.md` is Steven's untracked file and still says port 8849 and "Tailwind CDN".
+- **Found, not fixed (out of scope):**
+  1. Globe: the selected summit never turns teal or shows its label, because `render` closes over the first `activeSummit`.
+  2. Globe on phones: a one-finger swipe on the canvas can't scroll the page.
+  3. Desktop hero (≥1280): the subtitle's last words sit on Kim's face. The live site does the same.
+  4. `overflow-x-clip` needs Safari 16 or newer. WebP-only lightbox images need iOS 14 or newer.
+- **Independent critic (2026-09-23):** REVISE, with no HIGH findings.
+  - The two MEDIUM findings are fixed: the hero layout on short and mid-size screens, and the hero `sizes` value, which was loading a variant too small for phones.
+  - The LOW gallery `sizes` finding is fixed too.
+  - Re-review, 2026-09-23: APPROVE. The critic reproduced the fixes at 18 sizes from 320×568 to 1023×600 and agreed the split layout is better than D3 as written. Steven still needs to review the phone screenshots.

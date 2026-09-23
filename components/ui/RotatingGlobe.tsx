@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 import * as d3 from "d3";
+import { assetPath } from "../../utils/assetPath";
 
 export interface Summit {
   id: string;
@@ -21,9 +22,23 @@ export const SEVEN_SUMMITS: Summit[] = [
   { id: "kosciuszko", name: "Mt. Kosciuszko", continent: "Australia", lat: -36.4561, lng: 148.2634, elevation: "7,310 ft", year: "2018" },
 ];
 
+// Natural Earth 1:110m land (public domain), served from public/data. Fetched
+// once per page load and shared, so a resize doesn't download it again.
+let landPromise: Promise<any> | null = null;
+const loadLand = () => {
+  landPromise ??= fetch(assetPath("/data/ne_110m_land.json")).then((response) => {
+    if (!response.ok) throw new Error("Failed to load land data");
+    return response.json();
+  });
+  landPromise.catch(() => { landPromise = null; });
+  return landPromise;
+};
+// Halftone dot positions depend only on the land data, so they're computed once.
+let cachedDots: { lng: number; lat: number }[] | null = null;
+
 interface RotatingGlobeProps {
-  width?: number;
-  height?: number;
+  /** Largest canvas side in CSS pixels; the canvas is square and fills its container up to this. */
+  maxSize?: number;
   className?: string;
   onSummitHover?: (summit: Summit | null) => void;
   activeSummit?: string | null;
@@ -34,8 +49,10 @@ export interface GlobeRef {
 }
 
 const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
-  ({ width = 800, height = 600, className = "", onSummitHover, activeSummit }, ref) => {
+  ({ maxSize = 700, className = "", onSummitHover, activeSummit }, ref) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const [size, setSize] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const projectionRef = useRef<d3.GeoProjection | null>(null);
@@ -89,15 +106,26 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
       },
     }));
 
+    // Size the canvas as a square that fills the container width, up to maxSize.
     useEffect(() => {
-      if (!canvasRef.current) return;
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+      const measure = () => setSize(Math.min(Math.floor(wrapper.clientWidth), maxSize));
+      measure();
+      const observer = new ResizeObserver(measure);
+      observer.observe(wrapper);
+      return () => observer.disconnect();
+    }, [maxSize]);
+
+    useEffect(() => {
+      if (!canvasRef.current || !size) return;
 
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
       if (!context) return;
 
-      const containerWidth = Math.min(width, window.innerWidth - 40);
-      const containerHeight = Math.min(height, window.innerHeight - 100);
+      const containerWidth = size;
+      const containerHeight = size;
       const radius = Math.min(containerWidth, containerHeight) / 2.5;
       radiusRef.current = radius;
 
@@ -106,7 +134,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
       canvas.height = containerHeight * dpr;
       canvas.style.width = `${containerWidth}px`;
       canvas.style.height = `${containerHeight}px`;
-      context.scale(dpr, dpr);
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const projection = d3
         .geoOrthographic()
@@ -278,27 +306,27 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
 
       renderRef.current = render;
 
+      let cancelled = false;
       const loadWorldData = async () => {
         try {
           setIsLoading(true);
 
-          const response = await fetch(
-            "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json"
-          );
-          if (!response.ok) throw new Error("Failed to load land data");
+          const land = await loadLand();
+          if (cancelled) return;
+          landFeatures = land;
 
-          landFeatures = await response.json();
-
-          landFeatures.features.forEach((feature: any) => {
-            const dots = generateDotsInPolygon(feature, 16);
-            dots.forEach(([lng, lat]) => {
-              allDots.push({ lng, lat });
+          if (!cachedDots) {
+            cachedDots = [];
+            landFeatures.features.forEach((feature: any) => {
+              generateDotsInPolygon(feature, 16).forEach(([lng, lat]) => cachedDots!.push({ lng, lat }));
             });
-          });
+          }
+          allDots.push(...cachedDots);
 
           render();
           setIsLoading(false);
         } catch (err) {
+          if (cancelled) return;
           setError("Failed to load land map data");
           setIsLoading(false);
         }
@@ -432,6 +460,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
       loadWorldData();
 
       return () => {
+        cancelled = true;
         rotationTimer.stop();
         canvas.removeEventListener("mousedown", handleMouseDown);
         canvas.removeEventListener("wheel", handleWheel);
@@ -442,7 +471,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
           cancelAnimationFrame(animationRef.current);
         }
       };
-    }, [width, height]);
+    }, [size]);
 
     // Re-render when active summit changes
     useEffect(() => {
@@ -463,7 +492,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
     }
 
     return (
-      <div className={`relative ${className}`}>
+      <div ref={wrapperRef} className={`relative ${className}`}>
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-brand-teal">Loading globe...</div>
@@ -471,8 +500,7 @@ const RotatingGlobe = forwardRef<GlobeRef, RotatingGlobeProps>(
         )}
         <canvas
           ref={canvasRef}
-          className="w-full h-auto rounded-2xl bg-brand-dark"
-          style={{ maxWidth: "100%", height: "auto" }}
+          className="block mx-auto rounded-2xl bg-brand-dark"
         />
       </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PARTNERS } from '../constants';
-import { assetPath } from '../utils/assetPath';
+import { ResponsiveImage } from './ResponsiveImage';
 
 const Partners: React.FC = () => {
   return (
@@ -20,8 +20,9 @@ const Partners: React.FC = () => {
               rel="noopener noreferrer"
               className="group transition-all duration-300 w-full flex justify-center grayscale hover:grayscale-0"
             >
-              <img
-                src={assetPath(partner.logoUrl)}
+              <ResponsiveImage
+                src={partner.logoUrl}
+                sizes="200px"
                 alt={partner.name}
                 className="max-h-12 w-auto object-contain transform group-hover:scale-105 transition-transform"
               />
